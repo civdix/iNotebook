@@ -1,14 +1,14 @@
 const express = require("express");
 const router = express.Router();
-const bcrypt = require("bcrypt");//hashing
-const saltRound = 10;//salt round in Hashing
+const bcrypt = require("bcrypt"); //hashing
+const saltRound = 10; //salt round in Hashing
 const jwt = require("jsonwebtoken");
-const JWT_SECRET_KEY = "Chacha_Chaudhary";//key for the Jsonwebtoken
+const JWT_SECRET_KEY = "Chacha_Chaudhary"; //key for the Jsonwebtoken
 const fetchUser = require("../middleWares/fetchData"); //FETCHUSER a middle ware that simply take the token from header by any variable let auth-token and from this token we can decode the payload by jwt.verify(token,key) which was the userId used in creation of the authToken or logintoken by jwt.sign method and finaly we can pass to it and get the data for that user
-const { body, validationResult } = require("express-validator");// a middleware used in authemtication and validation  process to validate enterred details is corrent or not and validationResult will return an array of errors came due to wrong and illegal entries by user
+const { body, validationResult } = require("express-validator"); // a middleware used in authemtication and validation  process to validate enterred details is corrent or not and validationResult will return an array of errors came due to wrong and illegal entries by user
 const User = require("../models/User");
 
-//A function that return the hashPassword of  given password 
+//A function that return the hashPassword of  given password
 const generateHash = async (password) => {
   try {
     const salt = await bcrypt.genSalt(saltRound);
@@ -20,11 +20,11 @@ const generateHash = async (password) => {
 };
 
 // Router 1
-//USer Login Credentials Validation using Post: api/auth/createANewUser  No Login Required
+//USer Sign Up Credentials Validation using Post: api/auth/createANewUser  No Login Required
 
 router.post(
-  "/createANewUser",
-  [ 
+  "/signUp",
+  [
     //middleware handle user entered data validation and put the error in validationResult return array
     body("Name", "Name Must be at least 3 letters long").isLength({
       max: 50,
@@ -58,22 +58,23 @@ router.post(
             },
           };
           const authToken = jwt.sign(data, JWT_SECRET_KEY);
-          res.json({ authToken });
+          res.json({ success: true, authToken });
         })
         .catch((err) => {
-          if (err.code === 11000) {//because in UserSchema we have pass to the Email Unique:true thats why on entering the already existed email will cause a error and catch function will caught the error and for duplicate entries error code is 11000
+          if (err.code === 11000) {
+            //because in UserSchema we have pass to the Email Unique:true thats why on entering the already existed email will cause a error and catch function will caught the error and for duplicate entries error code is 11000
             res
               .status(400)
               .json({ error: "Sorry a user with this email already exist" });
             console.error("Duplicate key error:", err);
             // Handle duplicate key error (E11000) here
           } else {
-            
             console.error("Error creating user:", err);
-            // Handle other errors otherthan error 11000 or duplicate value error 
+            // Handle other errors otherthan error 11000 or duplicate value error
           }
         });
-    } catch (error) {//Code or Internal server error will be handle here These error will be due to program failure or code failure
+    } catch (error) {
+      //Code or Internal server error will be handle here These error will be due to program failure or code failure
       res
         .status(500)
         .json({ error: "Internel Server Error Report the Issue to Devoloper" });
@@ -102,7 +103,7 @@ router.post(
       if (user) {
         //Now we check if the user have given the right password
         //Using Bcrypt hashmatching
-        const match = await bcrypt.compare(Password, user.Password);//this method will check the given password with the hashpassword and if both were same it will return the true otherthan false
+        const match = await bcrypt.compare(Password, user.Password); //this method will check the given password with the hashpassword and if both were same it will return the true otherthan false
         if (match) {
           const data = {
             //can say Payload which make uniquely identify the user by his unique logintoken or Jsonwebtoken
@@ -110,26 +111,34 @@ router.post(
               id: user.id,
             },
           };
-          const loginToken = jwt.sign(data, JWT_SECRET_KEY);//create a signature which will be authrority to acess the services by admin to the user
+          const loginToken = jwt.sign(data, JWT_SECRET_KEY); //create a signature which will be authrority to acess the services by admin to the user
           return res.json({
+            success: true,
             Message: "Login Successfull!!: Welcome " + user.Name,
             loginToken,
           });
         }
       }
-      return res.json({ Message: "You have Entered Wrong Credentials" });
+      return res.json({
+        success: false,
+        Message: "You have Entered Wrong Credentials",
+      });
     } catch (error) {
-      res.status(500).json({ Message: "Internal Server Error Occured" });
+      res.status(500).json({
+        Message:
+          "Internal Server Error Occured !!\n Please Try again later or Contact Dev Team",
+      });
     }
   }
 );
 
 //Router 3
 // Getting User Details using Get: api/auth/getUser   Login Required
-router.post("/getUser", fetchUser, async (req, res) => {//fetchUser : middleware that provide the userId by decoding the token and pass that user id to req object
+router.get("/Account", fetchUser, async (req, res) => {
+  //fetchUser : middleware that provide the userId by decoding the authToken/loginToken or Simply token and append that user id to req object
   try {
     const userId = req.user.id;
-    const user = await User.findById(userId).select("-Password");//retrive(by : select()) all the information of the user other than Password with a given userId or id(by : findById())
+    const user = await User.findById(userId).select("-Password"); //retrive(by : select()) all the information of the user other than Password with a given userId or id(by : findById())
     res.json({ user });
   } catch (error) {
     res.status(500).json({ Message: "Internal Server Error Occured" });

@@ -19,7 +19,7 @@ router.get("/fetchAllNotes", fetchUser, async (req, res) => {
 //Route 2 : To Post the Notes in Database || Login Required   CRUD - Create
 router.post(
   "/saveNotes",
-  fetchUser,
+  fetchUser, 
   [
     body("title", "Title can not be Empty").isLength({ min: 1 }),
     body("author", "Please Enter valid author name").isString(),
@@ -48,10 +48,10 @@ router.post(
 );
 
 //Route 3 -  Delete the Notes from the Database of self  get Request /api/notes/EditNotes CRUD - D Login Required
-router.delete("/deleteNote", fetchUser, async (req, res) => {
+router.delete("/deleteNote/:id", fetchUser, async (req, res) => {
   //Here if We Get any value from the header of specific note to be delete then we will delete it if not then very first note will be deleted for that user
   try {
-    const DeleteNoteId = req.header("NoteId");
+    const DeleteNoteId = req.params.id;
     const notes = await Notes.findOne(
       DeleteNoteId && 1
         ? { user: req.user.id, _id: DeleteNoteId }
