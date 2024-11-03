@@ -5,7 +5,7 @@ const app = express();
 const port = 5000;
 const cors = require('cors');
 // Allow requests from http://localhost:3000
-app.use(cors({ origin: 'https://i-notebook-weld.vercel.app/',
+app.use(cors({ origin: 'https://i-notebook-weld.vercel.app',
              methods:["POST","GET","DELETE","PUSH"],
              credentials:true}));
 app.use(express.json());
