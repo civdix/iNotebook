@@ -5,7 +5,7 @@ function Home() {
 
   return (
     <>
-      <div>There is some token value: {localStorage.getItem("token")}</div>
+      <div>There is some token value= {localStorage.getItem("token")}</div>
     </>
   );
 }
