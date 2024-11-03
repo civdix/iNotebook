@@ -14,7 +14,7 @@ const NoteState = (props) => {
         console.error("Unauthorised Access", 301);
       }
       const response = await fetch(
-        `https://i-notebook-api-three.vercel.app/api/notes/fetchAllNotes`,
+        `https://i-notebook-api-threee.vercel.app/api/notes/fetchAllNotes`,
         {
           method: "GET",
           headers: {
@@ -44,7 +44,7 @@ const NoteState = (props) => {
       author: value.author,
       tag: value.tag,
     };
-    const response = await fetch("https://i-notebook-api-three.vercel.app/api/notes/saveNotes", {
+    const response = await fetch("https://i-notebook-api-threee.vercel.app/api/notes/saveNotes", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -64,7 +64,7 @@ const NoteState = (props) => {
   //Delete Notes
   const deleteNotes = async (id) => {
     const returnVal = await fetch(
-      `https://i-notebook-api-three.vercel.app/api/notes/deleteNote/${id}`,
+      `https://i-notebook-api-threee.vercel.app/api/notes/deleteNote/${id}`,
       {
         method: "DELETE",
         headers: {
@@ -98,7 +98,7 @@ const NoteState = (props) => {
     // Get the User Details
     const account = async () => {
       try {
-        const response = await fetch("https://i-notebook-api-three.vercel.app/api/auth/Account", {
+        const response = await fetch("https://i-notebook-api-threee.vercel.app/api/auth/Account", {
           method: "get",
           headers: {
             "Content-Type": "application/json",
@@ -115,7 +115,7 @@ const NoteState = (props) => {
       }
     };
 
-    const response = await fetch("https://i-notebook-api-three.vercel.app/api/notes/editNote", {
+    const response = await fetch("https://i-notebook-api-threee.vercel.app/api/notes/editNote", {
       method: "PUT",
       headers: {
         "auth-token": token,
