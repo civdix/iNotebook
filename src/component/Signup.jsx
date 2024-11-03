@@ -16,7 +16,7 @@ const Signup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("i-notebook-api-three.vercel.app/api/auth/signUp", {
+      const response = await fetch("http://i-notebook-api-three.vercel.app/api/auth/signUp", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
