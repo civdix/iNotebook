@@ -8,7 +8,8 @@ const cors = require("cors");
 app.use(
   cors(
     { origin: "http://localhost:3000" },
-    { origin: "https://inotebook-managenotes.vercel.app/" }
+    { origin: "https://inotebook-managenotes.vercel.app" },
+    { origib: "https://i-notebook-weld.vercel.app" }
   )
 );
 app.use(express.json());
