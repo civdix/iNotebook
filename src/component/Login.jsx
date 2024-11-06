@@ -11,11 +11,7 @@ const Login = () => {
   const history = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
-<<<<<<< HEAD
     const response = await fetch("http://localhost:5000/api/auth/Login", {
-=======
-    const response = await fetch("i-notebook-api-three.vercel.app/api/auth/Login", {
->>>>>>> origin/main
       method: "POST",
       headers: {
         "Content-Type": "application/json",
