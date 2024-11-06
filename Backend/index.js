@@ -9,7 +9,7 @@ app.use(
   cors(
     { origin: "http://localhost:3000" },
     { origin: "https://inotebook-managenotes.vercel.app" },
-    { origib: "https://i-notebook-weld.vercel.app" }
+    { origin: "https://i-notebook-weld.vercel.app" }
   )
 );
 app.use(express.json());
