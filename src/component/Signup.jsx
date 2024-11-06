@@ -16,7 +16,11 @@ const Signup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+<<<<<<< HEAD
       const response = await fetch("http://localhost:5000/api/auth/signUp", {
+=======
+      const response = await fetch("https://i-notebook-api-threee.vercel.app/api/auth/signUp", {
+>>>>>>> origin/main
         method: "POST",
         headers: {
           "Content-Type": "application/json",

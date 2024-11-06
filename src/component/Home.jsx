@@ -5,7 +5,11 @@ function Home() {
 
   return (
     <>
+<<<<<<< HEAD
       <div>There is some token value= {localStorage.getItem("token")}</div>
+=======
+      <div>There is some token value: {localStorage.getItem("token")}</div>
+>>>>>>> origin/main
     </>
   );
 }
