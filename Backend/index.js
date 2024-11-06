@@ -17,7 +17,7 @@ app.use(express.json());
 app.use("/api/auth/", require("./routes/auth"));
 app.use("/api/notes/", require("./routes/notes"));
 
-app.get("", (req, res) => {
+app.get("/", (req, res) => {
   console.log("This is reponse");
   res.send("Hello World!");
 });
