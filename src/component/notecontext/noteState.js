@@ -3,7 +3,8 @@ import NoteContext from "./NoteContext";
 
 const NoteState = (props) => {
   // const [fetchedNotes, setfetchNotes] = useState([]);
-  // const hostname = "http://localhost:5000";
+  // const hostname = "${hostname}";
+  const hostname = "https://i-notebook-threee.vercel.app";
   const [notes, setNotes] = useState([]);
   const [userDetails, setUserDetails] = useState();
   const [token, setToken] = useState(localStorage.getItem("token"));
@@ -13,15 +14,12 @@ const NoteState = (props) => {
       if (token === null) {
         console.error("Unauthorised Access", 301);
       }
-      const response = await fetch(
-        `http://localhost:5000/api/notes/fetchAllNotes`,
-        {
-          method: "GET",
-          headers: {
-            "auth-token": localStorage.getItem("token"),
-          },
-        }
-      );
+      const response = await fetch(`${hostname}/api/notes/fetchAllNotes`, {
+        method: "GET",
+        headers: {
+          "auth-token": localStorage.getItem("token"),
+        },
+      });
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -44,7 +42,7 @@ const NoteState = (props) => {
       author: value.author,
       tag: value.tag,
     };
-    const response = await fetch("http://localhost:5000/api/notes/saveNotes", {
+    const response = await fetch(`${hostname}/api/notes/saveNotes`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -63,16 +61,13 @@ const NoteState = (props) => {
 
   //Delete Notes
   const deleteNotes = async (id) => {
-    const returnVal = await fetch(
-      `http://localhost:5000/api/notes/deleteNote/${id}`,
-      {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          "auth-token": token,
-        },
-      }
-    );
+    const returnVal = await fetch(`${hostname}/api/notes/deleteNote/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        "auth-token": token,
+      },
+    });
     if (!returnVal.ok) {
       setResponse({ msg: "Failed to Delete", code: "danger" });
       throw new Error(`HTTP error! status: ${returnVal.status}`);
@@ -98,7 +93,7 @@ const NoteState = (props) => {
     // Get the User Details
     const account = async () => {
       try {
-        const response = await fetch("localhost:5000/api/auth/Account", {
+        const response = await fetch(`${hostname}/api/auth/Account`, {
           method: "get",
           headers: {
             "Content-Type": "application/json",
@@ -115,7 +110,7 @@ const NoteState = (props) => {
       }
     };
 
-    const response = await fetch("http://localhost:5000/api/notes/editNote", {
+    const response = await fetch(`${hostname}/api/notes/editNote`, {
       method: "PUT",
       headers: {
         "auth-token": token,
