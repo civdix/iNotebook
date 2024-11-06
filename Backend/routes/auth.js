@@ -20,7 +20,7 @@ const generateHash = async (password) => {
 };
 
 // Router 1
-//USer Sign Up Credentials Validation using Post: api/auth/createANewUser  No Login Required
+//USer Sign Up Credentials Validation using Post: api/auth/signup  No Login Required
 
 router.post(
   "/signUp",
