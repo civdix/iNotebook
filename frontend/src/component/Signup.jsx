@@ -16,18 +16,21 @@ const Signup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:5000/api/auth/signUp", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          Email: formData.Email,
-          Password: formData.Password,
-          Name: formData.Name,
-          Phone: parseInt(formData.Phone, 10), // Base 10 for proper conversion
-        }),
-      });
+      const response = await fetch(
+        "https://i-notebook-inky.vercel.app/api/auth/signUp",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            Email: formData.Email,
+            Password: formData.Password,
+            Name: formData.Name,
+            Phone: parseInt(formData.Phone, 10), // Base 10 for proper conversion
+          }),
+        }
+      );
 
       if (!response.ok) {
         console.log(formData, parseInt(formData.Phone, 10)); // Ensure consistent base for parseInt
